@@ -82,7 +82,11 @@ namespace LibreriaWebApi.EndPoints
               .WithSummary("Crear un nuevo libro")
               .Produces(StatusCodes.Status201Created)
               .Produces(StatusCodes.Status400BadRequest)
-              .Produces(StatusCodes.Status500InternalServerError);
+              .Produces(StatusCodes.Status500InternalServerError)
+              .RequireAuthorization(policy =>
+              {
+                  policy.RequireRole("Admin");
+              });
 
             group.MapPut("/{id}", async (int id, ActualizarLibroDto dto, ActualizarLibroUseCase useCase) =>
             {

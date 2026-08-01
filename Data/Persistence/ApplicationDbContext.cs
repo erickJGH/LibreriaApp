@@ -9,8 +9,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace Data.Persistence
 {
-    public class ApplicationDbContext : DbContext
-       // : IdentityDbContext<ApplicationUser>
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
@@ -137,22 +136,29 @@ namespace Data.Persistence
             return base.SaveChangesAsync(cancellationToken);
         }
 
-        
+
 
         private void UpdateTimestamps()
         {
-
             foreach (var entry in ChangeTracker.Entries())
             {
                 if (entry.State == EntityState.Added)
                 {
-                    entry.Property("CreatedAt").CurrentValue = DateTime.UtcNow.AddHours(-4); ;
-                 
+                    if (entry.Metadata.FindProperty("CreatedAt") != null)
+                    {
+                        entry.Property("CreatedAt")
+                            .CurrentValue = DateTime.UtcNow.AddHours(-4);
+                    }
                 }
+
 
                 if (entry.State == EntityState.Modified)
                 {
-                    entry.Property("UpdatedAt").CurrentValue = DateTime.UtcNow.AddHours(-4);
+                    if (entry.Metadata.FindProperty("UpdatedAt") != null)
+                    {
+                        entry.Property("UpdatedAt")
+                            .CurrentValue = DateTime.UtcNow.AddHours(-4);
+                    }
                 }
             }
         }

@@ -108,7 +108,11 @@ namespace LibreriaWebApi.EndPoints
             .Produces(StatusCodes.Status200OK)
             .Produces(StatusCodes.Status404NotFound)
             .Produces(StatusCodes.Status400BadRequest)
-            .Produces(StatusCodes.Status500InternalServerError);
+            .Produces(StatusCodes.Status500InternalServerError)
+            .RequireAuthorization(policy =>
+            {
+                policy.RequireRole("Admin");
+            });
 
             group.MapDelete("/{id}", async (int id, BorrarPrestamoUseCase useCase) =>
             {
@@ -129,7 +133,11 @@ namespace LibreriaWebApi.EndPoints
             .WithSummary("Eliminar un prestamo existente")
             .Produces(StatusCodes.Status204NoContent)
             .Produces(StatusCodes.Status404NotFound)
-            .Produces(StatusCodes.Status500InternalServerError);
+            .Produces(StatusCodes.Status500InternalServerError)
+            .RequireAuthorization(policy =>
+            {
+                policy.RequireRole("Admin");
+            });
 
         }
     }
