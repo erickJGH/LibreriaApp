@@ -26,9 +26,13 @@ namespace LibreriaWebApi.EndPoints
             }).WithName("ObtenerAutorPorId")
             .WithSummary("Obtener un autor por su Id")
             .Produces(StatusCodes.Status200OK)
-            .Produces(StatusCodes.Status404NotFound);
+            .Produces(StatusCodes.Status404NotFound)
+            .RequireAuthorization(policy =>
+            {
+                policy.RequireRole("Usuario", "Admin");
+            });
 
-          group.MapGet("/", async(ObtenerTodosAutoresUseCase useCase) =>
+            group.MapGet("/", async(ObtenerTodosAutoresUseCase useCase) =>
           {
               try
               {
@@ -42,9 +46,13 @@ namespace LibreriaWebApi.EndPoints
           }).WithName("ObtenerTodosLosAutores")
             .WithSummary("Obtener todos los autores")
             .Produces(StatusCodes.Status200OK)
-            .Produces(StatusCodes.Status500InternalServerError);
+            .Produces(StatusCodes.Status500InternalServerError)
+            .RequireAuthorization(policy =>
+            {
+                policy.RequireRole("Usuario", "Admin");
+            });
 
-           group.MapPost("/", async(CrearAutorDto dto, CrearAutorUseCase useCase) =>
+            group.MapPost("/", async(CrearAutorDto dto, CrearAutorUseCase useCase) =>
            {
                try
                {
@@ -67,7 +75,11 @@ namespace LibreriaWebApi.EndPoints
              .WithSummary("Crear una nuevo autor")
              .Produces(StatusCodes.Status201Created)
              .Produces(StatusCodes.Status400BadRequest)
-             .Produces(StatusCodes.Status500InternalServerError);
+             .Produces(StatusCodes.Status500InternalServerError)
+             .RequireAuthorization(policy =>
+             {
+                 policy.RequireRole("Usuario", "Admin");
+             });
 
             group.MapPut("/{id}", async(int id, ActualizarAutorDto dto,ActualizarActorUseCase useCase) =>
             {
@@ -93,7 +105,11 @@ namespace LibreriaWebApi.EndPoints
             .Produces(StatusCodes.Status200OK)
             .Produces(StatusCodes.Status404NotFound)
             .Produces(StatusCodes.Status400BadRequest)
-            .Produces(StatusCodes.Status500InternalServerError);
+            .Produces(StatusCodes.Status500InternalServerError)
+            .RequireAuthorization(policy =>
+            {
+                policy.RequireRole("Usuario", "Admin");
+            });
 
             group.MapDelete("/{id}", async(int id, BorrarAutorUseCase useCase) =>
             {
@@ -114,7 +130,12 @@ namespace LibreriaWebApi.EndPoints
             .WithSummary("Eliminar un autor existente")
             .Produces(StatusCodes.Status204NoContent)
             .Produces(StatusCodes.Status404NotFound)
-            .Produces(StatusCodes.Status500InternalServerError);
+            .Produces(StatusCodes.Status500InternalServerError)
+            .RequireAuthorization(policy =>
+            {
+                policy.RequireRole("Usuario","Admin");
+            });
+
 
         }
 

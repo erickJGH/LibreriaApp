@@ -25,7 +25,11 @@ namespace LibreriaWebApi.EndPoints
             }).WithName("ObtenerPrestamoPorId")
             .WithSummary("Obtener un prestamo por su Id")
             .Produces(StatusCodes.Status200OK)
-            .Produces(StatusCodes.Status404NotFound);
+            .Produces(StatusCodes.Status404NotFound)
+            .RequireAuthorization(policy =>
+            {
+                policy.RequireRole("Usuario", "Admin");
+            });
 
             group.MapGet("/", async (ObtenerTodosLosPrestamosUseCase useCase) =>
             {
@@ -41,7 +45,11 @@ namespace LibreriaWebApi.EndPoints
             }).WithName("ObtenerTodosLosPrestamos")
               .WithSummary("Obtener todos los prestamos")
               .Produces(StatusCodes.Status200OK)
-              .Produces(StatusCodes.Status500InternalServerError);
+              .Produces(StatusCodes.Status500InternalServerError)
+              .RequireAuthorization(policy =>
+              {
+                  policy.RequireRole("Usuario", "Admin");
+              });
 
             group.MapGet("/no-devueltos", async (ObtenerPrestamosNoDevueltosUseCase useCase) =>
             {
@@ -57,7 +65,11 @@ namespace LibreriaWebApi.EndPoints
             }).WithName("No-devueltos")
               .WithSummary("Obtener todos los prestamos no devueltos")
               .Produces(StatusCodes.Status200OK)
-              .Produces(StatusCodes.Status500InternalServerError);
+              .Produces(StatusCodes.Status500InternalServerError)
+              .RequireAuthorization(policy =>
+              {
+                  policy.RequireRole("Usuario", "Admin");
+              });
 
             group.MapPost("/", async (CrearPrestamoDto dto, CrearPrestamoUseCase useCase) =>
             {
@@ -82,7 +94,11 @@ namespace LibreriaWebApi.EndPoints
               .WithSummary("Crear un nuevo prestamo")
               .Produces(StatusCodes.Status201Created)
               .Produces(StatusCodes.Status400BadRequest)
-              .Produces(StatusCodes.Status500InternalServerError);
+              .Produces(StatusCodes.Status500InternalServerError)
+            .RequireAuthorization(policy =>
+             {
+                 policy.RequireRole("Usuario", "Admin");
+             });
 
             group.MapPut("/{id}", async (int id, RegistrarTerminoPrestamoDto dto, RegistrarDevolucionPrestamoUseCase useCase) =>
             {

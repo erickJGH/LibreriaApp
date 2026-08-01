@@ -25,7 +25,11 @@ namespace LibreriaWebApi.EndPoints
             }).WithName("ObtenerLibroPorId")
             .WithSummary("Obtener un libro por su Id")
             .Produces(StatusCodes.Status200OK)
-            .Produces(StatusCodes.Status404NotFound);
+            .Produces(StatusCodes.Status404NotFound)
+            .RequireAuthorization(policy =>
+            {
+                policy.RequireRole("Usuario", "Admin");
+            });
 
             group.MapGet("/", async (ObtenerTodosLosLibrosUseCase useCase) =>
             {
@@ -41,7 +45,11 @@ namespace LibreriaWebApi.EndPoints
             }).WithName("ObtenerTodosLosLibros")
               .WithSummary("Obtener todos los libros")
               .Produces(StatusCodes.Status200OK)
-              .Produces(StatusCodes.Status500InternalServerError);
+              .Produces(StatusCodes.Status500InternalServerError)
+              .RequireAuthorization(policy =>
+              {
+                  policy.RequireRole("Usuario", "Admin");
+              });
 
             group.MapGet("/antes-de-2000", async (ObtenerLibrosAntesde2000UseCase useCase) =>
             {
@@ -57,7 +65,11 @@ namespace LibreriaWebApi.EndPoints
             }).WithName("antes-de-2000")
               .WithSummary("Obtener libros publicados antes de 2000")
               .Produces(StatusCodes.Status200OK)
-              .Produces(StatusCodes.Status500InternalServerError);
+              .Produces(StatusCodes.Status500InternalServerError)
+              .RequireAuthorization(policy =>
+              {
+                  policy.RequireRole("Usuario", "Admin");
+              });
 
             group.MapPost("/", async (CrearLibroDto dto, CrearLibroUseCase useCase) =>
             {
@@ -113,7 +125,12 @@ namespace LibreriaWebApi.EndPoints
             .Produces(StatusCodes.Status200OK)
             .Produces(StatusCodes.Status404NotFound)
             .Produces(StatusCodes.Status400BadRequest)
-            .Produces(StatusCodes.Status500InternalServerError);
+            .Produces(StatusCodes.Status500InternalServerError)
+            .RequireAuthorization(policy =>
+            {
+                policy.RequireRole("Usuario", "Admin");
+            });
+
 
             group.MapDelete("/{id}", async (int id, BorrarLibroUseCase useCase) =>
             {
@@ -134,7 +151,11 @@ namespace LibreriaWebApi.EndPoints
             .WithSummary("Eliminar un libro existente")
             .Produces(StatusCodes.Status204NoContent)
             .Produces(StatusCodes.Status404NotFound)
-            .Produces(StatusCodes.Status500InternalServerError);
+            .Produces(StatusCodes.Status500InternalServerError)
+            .RequireAuthorization(policy =>
+            {
+                policy.RequireRole("Usuario", "Admin");
+            });
 
         }
     }
