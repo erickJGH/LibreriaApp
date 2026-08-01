@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="Application/Application.csproj" />
+  <Project Path="Data/Data.csproj" Id="953b2e67-c38a-45bc-8744-3ee6c4863c99" />
+  <Project Path="Domain/Domain.csproj" />
+  <Project Path="LibreriaWebApi/LibreriaWebApi.csproj" Id="680d1d03-82c6-4270-9505-290691d46ec5" />
+</Solution>
