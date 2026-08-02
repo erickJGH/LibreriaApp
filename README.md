@@ -38,6 +38,12 @@ dotnet restore
 dotnet ef database update --project Data --startup-project LibreriaWebApi
 ```
 
+Si quisiera generar sus propias migracions puede borrar y crear una migracion nueva con
+
+```bash
+dotnet ef migrations add InitialCreate --project Data --startup-project LibreriaWebApi
+```
+
 3. Ejecutar la API:
 
 ```bash
