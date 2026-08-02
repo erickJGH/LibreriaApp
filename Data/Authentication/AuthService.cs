@@ -25,7 +25,7 @@ namespace Data.Authentication
                 var existingUser = await _userManager.FindByNameAsync(request.userName);
                 if (existingUser != null)
                 {
-                    throw new Exception("El usuario ya existe.");
+                    throw new InvalidOperationException("El usuario ya existe.");
                 }
                 var user = new ApplicationUser
                 {

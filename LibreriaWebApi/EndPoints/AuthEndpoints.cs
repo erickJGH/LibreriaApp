@@ -26,18 +26,16 @@ namespace LibreriaWebApi.EndPoints
                             message = "Usuario creado correctamente"
                         });
                     }
-                    catch (Exception ex)
+                    catch (InvalidOperationException ex)
                     {
-                        return Results.BadRequest(new
-                        {
-                            error = ex.Message
-                        });
+                       throw new InvalidOperationException("Error al registrar el usuario: " + ex.Message);
                     }
 
                 })
                 .WithName("Register")
                 .WithSummary("Registrar un nuevo usuario")
                 .Produces(StatusCodes.Status200OK)
+                .Produces(StatusCodes.Status401Unauthorized)
                 .Produces(StatusCodes.Status400BadRequest)
                 .RequireAuthorization(policy =>
                 {
